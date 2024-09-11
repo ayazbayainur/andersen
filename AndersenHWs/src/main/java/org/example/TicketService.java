@@ -5,6 +5,13 @@ import java.util.List;
 
 public class TicketService {
     private static List<Ticket> tickets = new ArrayList<>();
+
+    public static Ticket returnById(String id){
+        for(int i = 0; i < tickets.size(); i++){
+            if(tickets.get(i).getId() != null && tickets.get(i).getId().equals(id)) return tickets.get(i);
+        }
+        return null;
+    }
     public static void main(String[] args) {
         System.out.println("Hello world!");
         Ticket emptyTicket = new Ticket();
@@ -19,8 +26,9 @@ public class TicketService {
         Ticket limitedTicket1 = new Ticket("red", 001, 1676419208);
         Ticket limitedTicket2 = new Ticket("red", 001, 1676419209);
 
-        tickets.add(emptyTicket);
+//        tickets.add(emptyTicket);
         tickets.add(fullTicket1);
+        tickets.add(limitedTicket1);
         tickets.add(fullTicket2);
         tickets.add(fullTicket3);
         tickets.add(fullTicket4);
@@ -28,11 +36,11 @@ public class TicketService {
         tickets.add(fullTicket6);
         tickets.add(fullTicket7);
         tickets.add(fullTicket8);
-        tickets.add(limitedTicket1);
         tickets.add(limitedTicket2);
 
         Ticket.price = 3000.0;
 
         System.out.println(tickets);
+        System.out.println(returnById("2"));
     }
 }
