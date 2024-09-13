@@ -6,12 +6,6 @@ import java.util.List;
 public class TicketService {
     private static List<Ticket> tickets = new ArrayList<>();
 
-    public static Ticket returnById(String id){
-        for(int i = 0; i < tickets.size(); i++){
-            if(tickets.get(i).getId() != null && tickets.get(i).getId().equals(id)) return tickets.get(i);
-        }
-        return null;
-    }
     public static void main(String[] args) {
         System.out.println("Hello world!");
         Ticket emptyTicket = new Ticket();
@@ -42,5 +36,14 @@ public class TicketService {
 
         System.out.println(tickets);
         System.out.println(returnById("2"));
+    }
+
+    private static Ticket returnById(String id){
+        for(int i = 0; i < tickets.size(); i++){
+            if(tickets.get(i).getId() != null && tickets.get(i).getId().equals(id)){
+                return tickets.get(i);
+            }
+        }
+        return null;
     }
 }
