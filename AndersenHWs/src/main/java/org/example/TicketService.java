@@ -2,43 +2,62 @@ package org.example;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import org.example.ConcertTicket;
 public class TicketService {
-    private static List<Ticket> tickets = new ArrayList<>();
+    private static List<ConcertTicket> tickets = new ArrayList<>();
 
     public static void main(String[] args) {
         System.out.println("Hello world!");
-        Ticket emptyTicket = new Ticket();
-        Ticket fullTicket1 = new Ticket("1", "red", 001, 1676419200, true, Ticket.StadiumSector.A, 25.9857);
-        Ticket fullTicket2 = new Ticket("2", "red", 001, 1676419200, true, Ticket.StadiumSector.A, 25.9857);
-        Ticket fullTicket3 = new Ticket("3", "red", 001, 1676419200, true, Ticket.StadiumSector.C, 25.9857);
-        Ticket fullTicket4 = new Ticket("4", "red", 001, 1676419200, true, Ticket.StadiumSector.B, 25.9857);
-        Ticket fullTicket5 = new Ticket("5", "red", 001, 1676419200, true, Ticket.StadiumSector.A, 25.9857);
-        Ticket fullTicket6 = new Ticket("6", "red", 001, 1676419200, true, Ticket.StadiumSector.C, 25.9857);
-        Ticket fullTicket7 = new Ticket("7", "red", 001, 1676419200, true, Ticket.StadiumSector.A, 25.9857);
-        Ticket fullTicket8 = new Ticket("8", "red", 001, 1676419200, true, Ticket.StadiumSector.B, 25.9857);
-        Ticket limitedTicket1 = new Ticket("red", 001, 1676419208);
-        Ticket limitedTicket2 = new Ticket("red", 001, 1676419209);
+        ConcertTicket emptyConcertTicket = new ConcertTicket();
+        ConcertTicket fullConcertTicket1 = new ConcertTicket("1", "red", 001, 1676419200, true, ConcertTicket.StadiumSector.A, 25.9857);
+        ConcertTicket fullConcertTicket2 = new ConcertTicket("2", "red", 001, 1676419200, true, ConcertTicket.StadiumSector.A, 25.9857);
+        ConcertTicket fullConcertTicket3 = new ConcertTicket("3", "red", 001, 1676419200, true, ConcertTicket.StadiumSector.C, 25.9857);
+        ConcertTicket fullConcertTicket4 = new ConcertTicket("4", "red", 001, 1676419200, true, ConcertTicket.StadiumSector.B, 25.9857);
+        ConcertTicket fullConcertTicket5 = new ConcertTicket("5", "red", 001, 1676419200, true, ConcertTicket.StadiumSector.A, 25.9857);
+        ConcertTicket fullConcertTicket6 = new ConcertTicket("6", "red", 001, 1676419200, true, ConcertTicket.StadiumSector.C, 25.9857);
+        ConcertTicket fullConcertTicket7 = new ConcertTicket("7", "red", 001, 1676419200, true, ConcertTicket.StadiumSector.A, 25.9857, "747 632 5465");
+        ConcertTicket fullConcertTicket8 = new ConcertTicket("8", "red", 001, 1676419200, true, ConcertTicket.StadiumSector.B, 25.9857, "707 632 5465", "email");
+        ConcertTicket fullConcertTicket9 = new ConcertTicket("1", "red", 001, 1676419200, true, ConcertTicket.StadiumSector.A, 25.9857);
+        ConcertTicket limitedConcertTicket1 = new ConcertTicket("red", 001, 1676419208);
+        ConcertTicket limitedConcertTicket2 = new ConcertTicket("red", 001, 1676419209);
 
 //        tickets.add(emptyTicket);
-        tickets.add(fullTicket1);
-        tickets.add(limitedTicket1);
-        tickets.add(fullTicket2);
-        tickets.add(fullTicket3);
-        tickets.add(fullTicket4);
-        tickets.add(fullTicket5);
-        tickets.add(fullTicket6);
-        tickets.add(fullTicket7);
-        tickets.add(fullTicket8);
-        tickets.add(limitedTicket2);
+        tickets.add(fullConcertTicket1);
+        tickets.add(limitedConcertTicket1);
+        tickets.add(fullConcertTicket2);
+        tickets.add(fullConcertTicket3);
+        tickets.add(fullConcertTicket4);
+        tickets.add(fullConcertTicket5);
+        tickets.add(fullConcertTicket6);
+        tickets.add(fullConcertTicket7);
+        tickets.add(fullConcertTicket8);
+        tickets.add(limitedConcertTicket2);
 
-        Ticket.price = 3000.0;
-
+        ConcertTicket.price = 3000.0;
         System.out.println(tickets);
-        System.out.println(returnById("2"));
+//        System.out.println(returnById("2"));
+
+        System.out.println(fullConcertTicket1.print());
+
+        ConcertTicket concertTicketWithPhone = null;
+        ConcertTicket concertTicketWithPhoneEmail = null;
+        for(ConcertTicket ticket: tickets){
+            if(concertTicketWithPhone == null) concertTicketWithPhone = ticket.shared("747 632 5465");
+            if(concertTicketWithPhoneEmail == null) concertTicketWithPhoneEmail = ticket.shared("707 632 5465", "email");
+        }
+        System.out.println(concertTicketWithPhone);
+        System.out.println(concertTicketWithPhoneEmail);
+
+        User user = new Admin();
+        System.out.println(user.printRole());
+
+        System.out.println(fullConcertTicket1.equals(fullConcertTicket9));
+        System.out.println(fullConcertTicket1 == fullConcertTicket9);
+        System.out.println(fullConcertTicket1.hashCode());
+        System.out.println(fullConcertTicket9.hashCode());
     }
 
-    private static Ticket returnById(String id){
+    private static ConcertTicket returnById(String id){
         for(int i = 0; i < tickets.size(); i++){
             if(tickets.get(i).getId() != null && tickets.get(i).getId().equals(id)){
                 return tickets.get(i);
