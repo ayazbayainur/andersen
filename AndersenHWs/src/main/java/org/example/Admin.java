@@ -6,7 +6,7 @@ public class Admin extends User{
         return Role.ADMIN;
     }
 
-    private boolean checkTicket(Ticket ticket){
+    public boolean checkTicket(Ticket ticket){
         return false;
     }
 }

@@ -6,7 +6,7 @@ public class Client extends User{
         return Role.CLIENT;
     }
 
-    private Ticket getTicket(long id){
+    public Ticket getTicket(long id){
         return null;
     }
 }

@@ -33,20 +33,14 @@ public class TicketService {
         tickets.add(fullConcertTicket8);
         tickets.add(limitedConcertTicket2);
 
-        ConcertTicket.price = 3000.0;
+//        ConcertTicket.price = 3000.0;
         System.out.println(tickets);
-//        System.out.println(returnById("2"));
+        System.out.println(returnById("2"));
 
         System.out.println(fullConcertTicket1.print());
 
-        ConcertTicket concertTicketWithPhone = null;
-        ConcertTicket concertTicketWithPhoneEmail = null;
-        for(ConcertTicket ticket: tickets){
-            if(concertTicketWithPhone == null) concertTicketWithPhone = ticket.shared("747 632 5465");
-            if(concertTicketWithPhoneEmail == null) concertTicketWithPhoneEmail = ticket.shared("707 632 5465", "email");
-        }
-        System.out.println(concertTicketWithPhone);
-        System.out.println(concertTicketWithPhoneEmail);
+        fullConcertTicket1.shared("8773636");
+        fullConcertTicket1.shared("672323572", "email");
 
         User user = new Admin();
         System.out.println(user.printRole());

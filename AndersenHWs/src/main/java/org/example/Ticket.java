@@ -9,8 +9,8 @@ public abstract class Ticket {
         return "print content in console";
     }
 
-    public Ticket shared(String phone){
-        return null;
+    public void shared(String phone){
+        System.out.println("shared by phone");
     }
-    public abstract Ticket shared(String phone, String email);
+    public abstract void shared(String phone, String email);
 }

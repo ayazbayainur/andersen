@@ -3,7 +3,7 @@ package org.example;
 import java.util.Objects;
 
 public class ConcertTicket extends Ticket{
-    public static Double price;
+    private Double price;
     private String concertHall;
     private Integer eventCode;
     private long eventTime;  // Unix timestap
@@ -96,20 +96,15 @@ public class ConcertTicket extends Ticket{
     }
 
     @Override
-    public ConcertTicket shared(String phone){
-        if(this.phone == phone) {
-            return this;
-        }
-        return null;
+    public void shared(String phone){
+        System.out.println("Concert ticket shared by phone");
     }
 
-    public ConcertTicket shared(String phone, String email){
-        if(this.phone == phone && this.email == email){
-            return this;
-        }
-        return null;
+    public void shared(String phone, String email){
+        System.out.println("Concert ticket shared by phone and email");
     }
 
+    @Override
     public String toString(){
         return "id: " + id + ", concertHall: " + concertHall + ", eventCode: " + eventCode + ", eventTime: " + eventTime + ", isPromo: " + isPromo
                 + ", stadumSector: " + stadiumSector + ", maxBackpackWeight: " + maxBackpackWeight + ", creationTime: " + creationTime + ", price: " + price;

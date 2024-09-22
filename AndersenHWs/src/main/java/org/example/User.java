@@ -3,6 +3,7 @@ package org.example;
 public class User {
     public long id;
     public Role role;
+
     public Role printRole(){
         return role;
     }
