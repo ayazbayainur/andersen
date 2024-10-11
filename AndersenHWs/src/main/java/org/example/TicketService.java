@@ -1,54 +1,79 @@
 package org.example;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import org.example.ConcertTicket;
 public class TicketService {
     private static List<ConcertTicket> tickets = new ArrayList<>();
 
     public static void main(String[] args) {
-        System.out.println("Hello world!");
-        ConcertTicket emptyConcertTicket = new ConcertTicket();
-        ConcertTicket fullConcertTicket1 = new ConcertTicket("1", "red", 001, 1676419200, true, ConcertTicket.StadiumSector.A, 25.9857);
-        ConcertTicket fullConcertTicket2 = new ConcertTicket("2", "red", 001, 1676419200, true, ConcertTicket.StadiumSector.A, 25.9857);
-        ConcertTicket fullConcertTicket3 = new ConcertTicket("3", "red", 001, 1676419200, true, ConcertTicket.StadiumSector.C, 25.9857);
-        ConcertTicket fullConcertTicket4 = new ConcertTicket("4", "red", 001, 1676419200, true, ConcertTicket.StadiumSector.B, 25.9857);
-        ConcertTicket fullConcertTicket5 = new ConcertTicket("5", "red", 001, 1676419200, true, ConcertTicket.StadiumSector.A, 25.9857);
-        ConcertTicket fullConcertTicket6 = new ConcertTicket("6", "red", 001, 1676419200, true, ConcertTicket.StadiumSector.C, 25.9857);
-        ConcertTicket fullConcertTicket7 = new ConcertTicket("7", "red", 001, 1676419200, true, ConcertTicket.StadiumSector.A, 25.9857, "747 632 5465");
-        ConcertTicket fullConcertTicket8 = new ConcertTicket("8", "red", 001, 1676419200, true, ConcertTicket.StadiumSector.B, 25.9857, "707 632 5465", "email");
-        ConcertTicket fullConcertTicket9 = new ConcertTicket("1", "red", 001, 1676419200, true, ConcertTicket.StadiumSector.A, 25.9857);
-        ConcertTicket limitedConcertTicket1 = new ConcertTicket("red", 001, 1676419208);
-        ConcertTicket limitedConcertTicket2 = new ConcertTicket("red", 001, 1676419209);
+        int total = 0;
+        int validCount = 0;
 
-//        tickets.add(emptyTicket);
-        tickets.add(fullConcertTicket1);
-        tickets.add(limitedConcertTicket1);
-        tickets.add(fullConcertTicket2);
-        tickets.add(fullConcertTicket3);
-        tickets.add(fullConcertTicket4);
-        tickets.add(fullConcertTicket5);
-        tickets.add(fullConcertTicket6);
-        tickets.add(fullConcertTicket7);
-        tickets.add(fullConcertTicket8);
-        tickets.add(limitedConcertTicket2);
+        // reading tickets from file BusTicketData.txt
+        String input = null;
+        try(var reader = new BufferedReader(new FileReader("/Users/macbookpro/Desktop/andersen/AndersenHWs/src/main/java/org/example/BusTicketData"))){
+            while(((input = reader.readLine()) != null)){
+                TicketClass ticketClass = null;
+                TicketType ticketType = null;
+                LocalDate startDate = null;
+                Double price = null;
+                List<String> subStrings = Arrays.asList(input.substring(1, input.length() - 1).split(","));
+                System.out.println(subStrings);
 
-//        ConcertTicket.price = 3000.0;
-        System.out.println(tickets);
-        System.out.println(returnById("2"));
+                for(int i = 0; i < subStrings.size() - 1; i++){
+                    String param = Arrays.asList(subStrings.get(i).split(":")).get(1);
+                    if(!param.equals("null")){
+                        param = param.substring(1, param.length() - 1);
+                    }
+                    if(i == 0 && !param.equals("null")){
+                        ticketClass = TicketClass.valueOf(param);
+                    }
+                    else if(i == 1 && !param.equals("null")){
+                        ticketType = TicketType.valueOf(param);
+                    }
+                    else if(i == 2 && !param.equals("null") && param.length()!=0){
+                        startDate = LocalDate.parse(param);
+                    }
+                }
 
-        System.out.println(fullConcertTicket1.print());
+                if(!Arrays.asList(subStrings.get(3).split(":")).get(1).equals("null")) {
+                    price = Double.valueOf(Arrays.asList(subStrings.get(3).split(":")).get(1));
+                }
 
-        fullConcertTicket1.shared("8773636");
-        fullConcertTicket1.shared("672323572", "email");
+                BusTicket busTicket = new BusTicket(ticketClass, ticketType, startDate, price);
 
-        User user = new Admin();
-        System.out.println(user.printRole());
+                total++;
+                if(busTicket.getValid() == true) validCount++;
+                System.out.println();
+            }
+        } catch(IOException ex){
+            System.out.println("excep");
+            System.out.println(ex.getMessage());
+        }
 
-        System.out.println(fullConcertTicket1.equals(fullConcertTicket9));
-        System.out.println(fullConcertTicket1 == fullConcertTicket9);
-        System.out.println(fullConcertTicket1.hashCode());
-        System.out.println(fullConcertTicket9.hashCode());
+        System.out.println("\nTotal = " + total);
+        System.out.println("Valid = " + validCount);
+
+        int maxValidations = Math.max(Math.max(BusTicketValidator.START_DATE_VALIDATIONS, BusTicketValidator.TICKET_TYPE_VALIDATIONS),BusTicketValidator.PRICE_VALIDATIONS);
+        String mostPopularViolation;
+        if(maxValidations == BusTicketValidator.START_DATE_VALIDATIONS){
+            mostPopularViolation = "start date";
+        }
+        else if(maxValidations == BusTicketValidator.TICKET_TYPE_VALIDATIONS){
+            mostPopularViolation = "ticket type";
+        }
+        else{
+            mostPopularViolation = "price";
+        }
+        System.out.println("Most popular violation = " + mostPopularViolation);
+
+        System.out.println("start date violations = " + BusTicketValidator.START_DATE_VALIDATIONS + ", ticket type violations = " + BusTicketValidator.TICKET_TYPE_VALIDATIONS + ", price violations = " + BusTicketValidator.PRICE_VALIDATIONS);
     }
 
     private static ConcertTicket returnById(String id){
