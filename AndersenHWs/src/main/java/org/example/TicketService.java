@@ -19,8 +19,8 @@ public class TicketService {
         String input = null;
         try(var reader = new BufferedReader(new FileReader("/Users/macbookpro/Desktop/andersen/AndersenHWs/src/main/java/org/example/BusTicketData"))){
             while(((input = reader.readLine()) != null)){
-                BusTicket.TicketClass ticketClass = null;
-                BusTicket.TicketType ticketType = null;
+                TicketClass ticketClass = null;
+                TicketType ticketType = null;
                 LocalDate startDate = null;
                 Double price = null;
                 List<String> subStrings = Arrays.asList(input.substring(1, input.length() - 1).split(","));
@@ -31,9 +31,15 @@ public class TicketService {
                     if(!param.equals("null")){
                         param = param.substring(1, param.length() - 1);
                     }
-                    if(i == 0 && !param.equals("null")) ticketClass = BusTicket.TicketClass.valueOf(param);
-                    else if(i == 1 && !param.equals("null")) ticketType = BusTicket.TicketType.valueOf(param);
-                    else if(i == 2 && !param.equals("null") && param.length()!=0) startDate = LocalDate.parse(param);
+                    if(i == 0 && !param.equals("null")){
+                        ticketClass = TicketClass.valueOf(param);
+                    }
+                    else if(i == 1 && !param.equals("null")){
+                        ticketType = TicketType.valueOf(param);
+                    }
+                    else if(i == 2 && !param.equals("null") && param.length()!=0){
+                        startDate = LocalDate.parse(param);
+                    }
                 }
 
                 if(!Arrays.asList(subStrings.get(3).split(":")).get(1).equals("null")) {
@@ -54,14 +60,20 @@ public class TicketService {
         System.out.println("\nTotal = " + total);
         System.out.println("Valid = " + validCount);
 
-        int maxValidations = Math.max(Math.max(BusTicketValidator.startDateValidations, BusTicketValidator.ticketTypeValidations),BusTicketValidator.priceValidations);
+        int maxValidations = Math.max(Math.max(BusTicketValidator.START_DATE_VALIDATIONS, BusTicketValidator.TICKET_TYPE_VALIDATIONS),BusTicketValidator.PRICE_VALIDATIONS);
         String mostPopularViolation;
-        if(maxValidations == BusTicketValidator.startDateValidations) mostPopularViolation = "start date";
-        else if(maxValidations == BusTicketValidator.ticketTypeValidations) mostPopularViolation = "ticket type";
-        else mostPopularViolation = "price";
+        if(maxValidations == BusTicketValidator.START_DATE_VALIDATIONS){
+            mostPopularViolation = "start date";
+        }
+        else if(maxValidations == BusTicketValidator.TICKET_TYPE_VALIDATIONS){
+            mostPopularViolation = "ticket type";
+        }
+        else{
+            mostPopularViolation = "price";
+        }
         System.out.println("Most popular violation = " + mostPopularViolation);
 
-        System.out.println("start date violations = " + BusTicketValidator.startDateValidations + ", ticket type violations = " + BusTicketValidator.ticketTypeValidations + ", price violations = " + BusTicketValidator.priceValidations);
+        System.out.println("start date violations = " + BusTicketValidator.START_DATE_VALIDATIONS + ", ticket type violations = " + BusTicketValidator.TICKET_TYPE_VALIDATIONS + ", price violations = " + BusTicketValidator.PRICE_VALIDATIONS);
     }
 
     private static ConcertTicket returnById(String id){

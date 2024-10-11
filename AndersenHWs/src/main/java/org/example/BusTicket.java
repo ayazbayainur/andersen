@@ -15,9 +15,9 @@ public class BusTicket {
     public BusTicket(TicketClass ticketClass, TicketType ticketType, LocalDate startDate, Double price){
         BusTicketValidator validator = new BusTicketValidator();
         try{
-            validator.startDateValidator(startDate, ticketType);
-            validator.ticketTypeValidator(ticketType);
-            validator.priceValidator(price);
+            validator.validateStartDate(startDate, ticketType);
+            validator.validateTicketType(ticketType);
+            validator.validatePrice(price);
         } catch(Exception ex){
             valid = false;
             System.out.println(ex.getMessage());
@@ -67,10 +67,10 @@ public class BusTicket {
     public String toString(){
         return "ticket class " + ticketClass + " , ticket type " + ticketType + " , start date " + startDate + " , price " + price
 ;    }
-    enum TicketClass{
-        CLA, STD;
-    }
-    enum TicketType{
-        DAY, WEEK, MONTH, YEAR, PRIME;
-    }
+//    enum TicketClass{
+//        CLA, STD;
+//    }
+//    enum TicketType{
+//        DAY, WEEK, MONTH, YEAR, PRIME;
+//    }
 }
