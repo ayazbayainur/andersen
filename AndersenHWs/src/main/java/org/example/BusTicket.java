@@ -67,10 +67,4 @@ public class BusTicket {
     public String toString(){
         return "ticket class " + ticketClass + " , ticket type " + ticketType + " , start date " + startDate + " , price " + price
 ;    }
-//    enum TicketClass{
-//        CLA, STD;
-//    }
-//    enum TicketType{
-//        DAY, WEEK, MONTH, YEAR, PRIME;
-//    }
 }
