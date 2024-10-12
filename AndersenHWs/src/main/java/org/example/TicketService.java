@@ -3,7 +3,6 @@ package org.example;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -72,8 +71,7 @@ public class TicketService {
             mostPopularViolation = "price";
         }
         System.out.println("Most popular violation = " + mostPopularViolation);
-
-        System.out.println("start date violations = " + BusTicketValidator.START_DATE_VALIDATIONS + ", ticket type violations = " + BusTicketValidator.TICKET_TYPE_VALIDATIONS + ", price violations = " + BusTicketValidator.PRICE_VALIDATIONS);
+        System.out.println("start date violations = " + BusTicketValidator.START_DATE_VALIDATIONS + ", ticket type violations = " + BusTicketValidator.TICKET_TYPE_VALIDATIONS + ", price violations = " + BusTicketValidator.PRICE_VALIDATIONS + "\n");
     }
 
     private static ConcertTicket returnById(String id){
