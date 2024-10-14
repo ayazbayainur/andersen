@@ -13,6 +13,10 @@ public class Collections {
         System.out.println(arrayList.size());
         arrayList.printCustomArrayList();
         arrayList.getByIndex(-6);
+        arrayList.putAtSpecificIndex(3, 2);
+        arrayList.printCustomArrayList();
+        System.out.println(arrayList.size());
+        System.out.println();
         arrayList1.printCustomArrayList();
         arrayList1.put("first");
         arrayList1.put("second");

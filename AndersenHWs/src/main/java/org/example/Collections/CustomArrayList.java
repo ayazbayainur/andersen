@@ -21,6 +21,25 @@ public class CustomArrayList<T> {
         arr[size++] = obj;
     }
 
+    public void putAtSpecificIndex(int ind, T obj){
+        try {
+            int j = 0;
+            Object[] temp = new Object[arr.length * 2];
+            for (int i = 0; i < size + 1; i++) {
+                if (i == ind) {
+                    temp[i] = obj;
+                    continue;
+                }
+                temp[i] = arr[j];
+                j++;
+            }
+            arr = temp;
+            size++;
+        } catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+    }
+
     public T getByIndex(int i){
         Object obj = null;
         try{
@@ -32,28 +51,25 @@ public class CustomArrayList<T> {
         return (T) obj;
     }
 
-    public void deleteByIndex(int i){
-        try{
-            arr[i] = null;
-        }catch(Exception ex){
-            System.out.println(ex.getMessage());
-            return;
-        }
+    public void deleteByIndex(int ind){
+        try {
+            size--;
+            if (size <= arr.length / 2) {
+                Object[] temp = new Object[arr.length / 2];
+                int k = 0;
 
-        size--;
-        if(size <= arr.length / 2){
-            Object[] temp = new Object[arr.length / 2];
-            int k = 0;
-
-            for(int j = 0; j < size + 1; j++){
-                if(arr[j] == null){
-                    continue;
+                for (int j = 0; j < size + 1; j++) {
+                    if (j == ind) {
+                        continue;
+                    }
+                    temp[k] = arr[j];
+                    k++;
                 }
-                temp[k] = arr[j];
-                k++;
+                arr = temp;
             }
-            arr = temp;
-        }
+        } catch(Exception ex){
+        System.out.println(ex.getMessage());
+    }
     }
 
     public int size(){
