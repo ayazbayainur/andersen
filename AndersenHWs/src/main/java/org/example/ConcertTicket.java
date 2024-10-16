@@ -25,29 +25,6 @@ public class ConcertTicket extends Ticket{
         this.maxBackpackWeight = maxBackpackWeight;
     }
 
-    public ConcertTicket(String id, String concertHall, Integer eventCode, long eventTime, Boolean isPromo, StadiumSector stadiumSector, Double maxBackpackWeight, String phone){
-        this.id = id;
-        this.concertHall = concertHall;
-        this.eventCode = eventCode;
-        this.eventTime = eventTime;
-        this.isPromo = isPromo;
-        this.stadiumSector = stadiumSector;
-        this.maxBackpackWeight = maxBackpackWeight;
-        this.phone = phone;
-    }
-
-    public ConcertTicket(String id, String concertHall, Integer eventCode, long eventTime, Boolean isPromo, StadiumSector stadiumSector, Double maxBackpackWeight, String phone, String email){
-        this.id = id;
-        this.concertHall = concertHall;
-        this.eventCode = eventCode;
-        this.eventTime = eventTime;
-        this.isPromo = isPromo;
-        this.stadiumSector = stadiumSector;
-        this.maxBackpackWeight = maxBackpackWeight;
-        this.phone = phone;
-        this.email = email;
-    }
-
     public ConcertTicket(String concertHall, Integer eventCode, long eventTime){
         this.concertHall = concertHall;
         this.eventCode = eventCode;
@@ -88,16 +65,6 @@ public class ConcertTicket extends Ticket{
 
     public void setEventTime(long eventTime){
         this.eventTime = eventTime;
-    }
-
-    @Override
-    public String print(){
-        return getClass().getName() + ", " + Integer.toHexString(hashCode());
-    }
-
-    @Override
-    public void shared(String phone){
-        System.out.println("Concert ticket shared by phone");
     }
 
     public void shared(String phone, String email){
