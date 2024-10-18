@@ -12,4 +12,8 @@ public class Ticket {
     public String userId;
     public TicketType ticketType;
     public LocalDate creationDate =  LocalDate.now();
+
+    public String toString(){
+        return "Ticket data: id = " + id + ", user id = " + userId + ", ticket type = " + ticketType + ", creation date = " + creationDate;
+    }
 }

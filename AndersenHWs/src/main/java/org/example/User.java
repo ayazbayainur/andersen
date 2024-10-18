@@ -21,7 +21,12 @@ public class User {
         return role;
     }
 
+    public String toString(){
+        return "User data: id = " + id + ", name = " + name + ", creation date = " + creationDate + ", role = " + role + ", phone = " + phone + ", email = " + email
+;    }
+
     public enum Role{
-        ADMIN, CLIENT
+        ADMIN, CLIENT;
+
     }
 }

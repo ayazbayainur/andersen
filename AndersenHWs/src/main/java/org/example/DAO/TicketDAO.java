@@ -7,58 +7,69 @@ import org.example.User;
 
 import java.sql.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TicketDAO {
-
-    public String saveTicket(Ticket ticket){
-        return "INSERT INTO ticket VALUES('" + ticket.id + "' , '" + ticket.userId + "', '" + ticket.ticketType + "' , '" + ticket.creationDate + "');";
+    Properties properties = new Properties();
+    public void saveTicket(Ticket ticket){
+            try(
+                    Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/my_ticket_service_db",
+                            properties.username, properties.password);
+                    Statement stmt = conn.createStatement();
+                    ){
+                stmt.executeUpdate("INSERT INTO ticket VALUES('" + ticket.id + "' , '" + ticket.userId + "', '" + ticket.ticketType + "' , '" + ticket.creationDate + "');");
+            } catch(SQLException ex){
+                System.out.println(ex.getMessage());
+            }
     }
 
-    public String findTicketById(String id){
-        return "SELECT * FROM ticket WHERE id = '" + id + "';";
+    public Ticket findTicketById(String id){
+        Ticket ticket = new Ticket();
+        try(
+                Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/my_ticket_service_db",
+                        properties.username, properties.password);
+                Statement stmt = conn.createStatement();
+                ){
+            ResultSet rs = stmt.executeQuery("SELECT * FROM ticket WHERE id = '" + id + "';");
+            while(rs.next()){
+                ticket = new Ticket(rs.getString("id"), rs.getString("user_id"), TicketType.valueOf(rs.getString("ticket_type")), LocalDate.parse(rs.getString("creation_date")));
+            }
+        } catch(SQLException ex){
+            System.out.println(ex.getMessage());
+        }
+        return ticket;
     }
 
-    public String findTicketByUserId(String userId){
-        return "SELECT * FROM ticket WHERE user_id = '" + userId + "';";
-    }
-
-    public String updateTicketType(String id, TicketType ticketType){
-        return "UPDATE ticket SET ticket_type = '" + ticketType + "' WHERE id = '" + id + "';";
-    }
-
-    public static void main(String[] args){
-        Properties properties = new Properties();
-        TicketDAO ticketDAO = new TicketDAO();
-
+    public List<Ticket> findTicketByUserId(String userId){
+        Ticket ticket = new Ticket();
+        List<Ticket> ticketList = new ArrayList<>();
         try(
                 Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/my_ticket_service_db",
                         properties.username, properties.password);
                 Statement stmt = conn.createStatement();
         ){
-            Ticket ticket = new Ticket("5", "4", TicketType.WEEK, LocalDate.parse("2024-10-01"));
-            stmt.executeUpdate(ticketDAO.saveTicket(ticket));
-            ResultSet rs2 = stmt.executeQuery(ticketDAO.findTicketById("2"));
-            while(rs2.next()) {
-                System.out.print("id: "+rs2.getString("id")+", ");
-                System.out.print("user id: "+rs2.getString("user_id")+", ");
-                System.out.print("ticket type: "+rs2.getString("ticket_type")+", ");
-                System.out.print("creation date: "+rs2.getString("creation_date"));
-                System.out.println();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM ticket WHERE user_id = '" + userId + "';");
+            while(rs.next()){
+                ticket = new Ticket(rs.getString("id"), rs.getString("user_id"), TicketType.valueOf(rs.getString("ticket_type")), LocalDate.parse(rs.getString("creation_date")));
+                ticketList.add(ticket);
             }
-            String userId = "3";
-            ResultSet rs3 = stmt.executeQuery(ticketDAO.findTicketByUserId(userId));
-            System.out.println("Tickets with user id = " + userId);
-            while(rs3.next()) {
-                System.out.print("id: "+rs3.getString("id")+", ");
-                System.out.print("user id: "+rs3.getString("user_id")+", ");
-                System.out.print("ticket type: "+rs3.getString("ticket_type")+", ");
-                System.out.print("creation date: "+rs3.getString("creation_date"));
-                System.out.println();
-            }
-            stmt.executeUpdate(ticketDAO.updateTicketType("1", TicketType.DAY));
-        } catch (SQLException ex){
+        } catch(SQLException ex){
             System.out.println(ex.getMessage());
         }
-
+        return ticketList;
     }
+
+    public void updateTicketType(String id, TicketType ticketType){
+        try(
+                Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/my_ticket_service_db",
+                        properties.username, properties.password);
+                Statement stmt = conn.createStatement();
+                ){
+            stmt.executeUpdate("UPDATE ticket SET ticket_type = '" + ticketType + "' WHERE id = '" + id + "';");
+        }catch(SQLException ex){
+            System.out.println(ex.getMessage());
+        }
+    }
+
 }
