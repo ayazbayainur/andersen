@@ -1,16 +1,19 @@
 package org.example;
 
-public abstract class Ticket {
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
+import java.time.LocalDate;
+
+@NoArgsConstructor
+@AllArgsConstructor
+public class Ticket {
     public String id;
-    public String phone;
-    public String email;
+    public String userId;
+    public TicketType ticketType;
+    public LocalDate creationDate =  LocalDate.now();
 
-    public String print(){
-        return "print content in console";
+    public String toString(){
+        return "Ticket data: id = " + id + ", user id = " + userId + ", ticket type = " + ticketType + ", creation date = " + creationDate;
     }
-
-    public void shared(String phone){
-        System.out.println("shared by phone");
-    }
-    public abstract void shared(String phone, String email);
 }
